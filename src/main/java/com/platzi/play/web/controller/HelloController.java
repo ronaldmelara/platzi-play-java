@@ -1,11 +1,13 @@
 package com.platzi.play.web.controller;
 
+import com.platzi.play.domain.dto.SuggestRequestDto;
 import com.platzi.play.domain.service.PlatziPlayAIService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/ia")
 public class HelloController {
     private final String plataform;
 
@@ -17,5 +19,10 @@ public class HelloController {
     @GetMapping("/hello")
     public String hello(){
         return this.aiService.generateGreating(plataform);
+    }
+
+    @PostMapping("/suggest")
+    public ResponseEntity<String> generateMoviesSuggestion(@RequestBody SuggestRequestDto userPreference){
+        return ResponseEntity.ok(this.aiService.generateMovieSuggestion(userPreference.userPreference()));
     }
 }
